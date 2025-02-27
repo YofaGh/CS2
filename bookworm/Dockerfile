@@ -11,6 +11,7 @@ LABEL maintainer="joedwards32@gmail.com"
 ENV STEAMAPPID 730
 ENV STEAMAPP cs2
 ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}-dedicated"
+ENV STEAMDIR "${HOMEDIR}/steam/Steam"
 ENV STEAMAPPVALIDATE 0
 
 COPY etc/entry.sh "${HOMEDIR}/entry.sh"
@@ -33,6 +34,8 @@ RUN set -x \
 	# Add entry script
 	&& chmod +x "${HOMEDIR}/entry.sh" \
 	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}" \
+        && chmod -R 775 "${STEAMDIR}" \
+        && chown -R "${USER}:${USER}" "${STEAMDIR}" \
 	# Clean up
         && apt-get clean \
         && find /var/lib/apt/lists/ -type f -delete
@@ -74,7 +77,9 @@ ENV CS2_SERVERNAME="cs2 private server" \
 #   Permissions may need to be reset if persistent volume mounted
 RUN set -x \
         && chown -R "${USER}:${USER}" "${STEAMAPPDIR}" \
-        && chmod 0777 "${STEAMAPPDIR}"
+        && chmod 0777 "${STEAMAPPDIR}" \
+        && chmod -R 775 "${STEAMDIR}" \
+        && chown -R "${USER}:${USER}" "${STEAMDIR}"
 
 # Switch to user
 USER ${USER}
