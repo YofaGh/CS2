@@ -31,6 +31,7 @@ RUN set -x \
                 unzip \
 		jq \
 	&& mkdir -p "${STEAMAPPDIR}" \
+        && mkdir -p "${STEAMDIR}" \
 	# Add entry script
 	&& chmod +x "${HOMEDIR}/entry.sh" \
 	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}" \
